@@ -8,7 +8,7 @@
 import UIKit.UIView
 import SnapKit
 
-final class FirstViewController: UIViewController {
+class FirstViewController: UIViewController {
     
     // MARK: - UI Elements
     private let firstLabel: UILabel = {
@@ -35,6 +35,7 @@ final class FirstViewController: UIViewController {
         button.addTarget(self, action: #selector(buttonDidTapped), for: .touchUpInside)
         return button
     }()
+    
     // MARK: - Life Cycle
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -55,11 +56,13 @@ final class FirstViewController: UIViewController {
     
     // MARK: - Actions
     @objc func buttonDidTapped() {
-        navigationController?.pushViewController(SecondViewController(), animated: true)
+        let secondViewController = SecondViewController()
+        secondViewController.delegate = self
+        navigationController?.pushViewController(secondViewController, animated: true)
     }
 }
 
-// MARK: - FirstView SnapKit Part
+// MARK: - FirstView SnapKit
 extension FirstViewController{
     
     func setupFirstLabel() {
@@ -87,3 +90,18 @@ extension FirstViewController{
     }
 }
 
+// MARK: - Protocol Delegate
+extension FirstViewController : TextDeliveryProtocol{
+    
+    func firstTextDelivery(_ text: String?) {
+        if let text = text {
+            firstLabel.text = text
+        }
+    }
+    
+    func secondTextDelivery(_ text: String?) {
+        if let text = text {
+            secondLabel.text = text
+        }
+    }
+}

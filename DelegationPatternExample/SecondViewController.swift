@@ -8,10 +8,17 @@
 import UIKit.UIView
 import SnapKit
 
+    // MARK: - Protocol creating
+protocol TextDeliveryProtocol: AnyObject {
+    func firstTextDelivery(_ text: String?)
+    func secondTextDelivery(_ text: String?)
+}
+
+
 class SecondViewController: UIViewController {
 
     // MARK: - UI Elements
-    let firstTF: UITextField = {
+    private let firstTF: UITextField = {
        let tf = UITextField()
         tf.borderStyle = .roundedRect
         tf.placeholder = "Please enter anything"
@@ -36,6 +43,8 @@ class SecondViewController: UIViewController {
     
     // MARK: - Properties
     
+    weak var delegate: TextDeliveryProtocol?
+    
     // MARK: - Life Cycle
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -53,10 +62,16 @@ class SecondViewController: UIViewController {
         setupSecondTF()
         setupButton()
     }
+    
     // MARK: - Actions
     @objc func didTapped (){
+        self.delegate?.firstTextDelivery(firstTF.text)
+        self.delegate?.secondTextDelivery(secondTF.text)
+        navigationController?.popViewController(animated: true)
     }
+    
 }
+
 // MARK: - SecondVC Snapkit Park
 extension SecondViewController {
     
@@ -84,3 +99,6 @@ extension SecondViewController {
         }
     }
 }
+
+
+    
